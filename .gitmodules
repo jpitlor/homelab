@@ -1,0 +1,9 @@
+[submodule "chart"]
+	path = chart
+	url = https://github.com/jpitlor/homelab-chart
+[submodule "configuration"]
+	path = configuration
+	url = https://github.com/jpitlor/homelab-configuration
+[submodule "provisioner"]
+	path = provisioner
+	url = https://github.com/jpitlor/homelab-provisioner
