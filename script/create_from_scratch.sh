@@ -92,6 +92,7 @@ sleep 30
 cd ../../provisioner
 tofu init
 tofu apply -auto-approve
+sleep 30
 
 cd ../configuration
 ansible-playbook configure-machines.yml
