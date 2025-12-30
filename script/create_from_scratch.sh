@@ -54,22 +54,22 @@ fi
 source .env
 
 # Fill out terraform.tfvars
+# TODO: make variables more consistent
 cat > provisioner/terraform.tfvars << EOF
 gcp_project = "$GCP_PROJECT"
 cloudflare_api_token = "$CLOUDFLARE_AUTH_TOKEN"
 cloudflare_zone_id = "$CLOUDFLARE_ZONE_ID"
 proxmox_endpoint = "$PROXMOX_HOST"
-pm_user = "$PROXMOX_USER"
+pm_user = "$PROXMOX_USER_NO_REALM"
 pm_password = "$PROXMOX_PASSWORD"
 proxmox_node_name = "$PROXMOX_NODE"
 EOF
 
 # Fill out variables.auto.pkvars.hcl
 # TODO: remove http_interface, it is not used
-# TODO: make variables more consistent
 cat > configuration/packer/variables.auto.pkrvars.hcl << EOF
 proxmox_host = "$PROXMOX_URL/api2/json"
-proxmox_username = "$PROXMOX_USER_NO_REALM"
+proxmox_username = "$PROXMOX_USER"
 proxmox_password = "$PROXMOX_PASSWORD"
 proxmox_node = "$PROXMOX_NODE"
 proxmox_disk_storage_pool = "$PROXMOX_DISK_STORAGE_POOL"
