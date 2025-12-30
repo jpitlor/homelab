@@ -96,5 +96,4 @@ cd ../configuration
 ansible-playbook configure-machines.yml
 
 # Done!
-clear
 echo "Homelab provisioning complete!"
