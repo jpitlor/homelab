@@ -58,7 +58,7 @@ cat > provisioner/terraform.tfvars << EOF
 gcp_project = "$GCP_PROJECT"
 cloudflare_api_token = "$CLOUDFLARE_AUTH_TOKEN"
 cloudflare_zone_id = "$CLOUDFLARE_ZONE_ID"
-proxmox_endpoint = "$PROXMOX_URL"
+proxmox_endpoint = "$PROXMOX_HOST"
 pm_user = "$PROXMOX_USER"
 pm_password = "$PROXMOX_PASSWORD"
 proxmox_node_name = "$PROXMOX_NODE"
