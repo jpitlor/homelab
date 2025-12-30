@@ -81,6 +81,7 @@ EOF
 
 # Build templates
 cd configuration/packer
+packer init
 packer build -except "proxmox-clone.*" .
 sleep 10
 packer build -only "proxmox-clone.*" .
@@ -88,7 +89,11 @@ sleep 10
 
 # Create resources
 cd ../../provisioner
+tofu init
 tofu apply -auto-approve
+
+cd ../configuration
+ansible-playbook configure-machines.yml
 
 # Done!
 clear
