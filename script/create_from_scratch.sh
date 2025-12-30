@@ -81,7 +81,7 @@ EOF
 
 # Build templates
 cd configuration/packer
-packer init
+packer init .
 packer build -except "proxmox-clone.*" .
 sleep 10
 packer build -only "proxmox-clone.*" .
