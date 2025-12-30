@@ -51,6 +51,7 @@ if grep -q fillmein .env; then
     echo ".env has placeholder values"
     exit 1
 fi
+source .env
 
 # Fill out terraform.tfvars
 cat > provisioner/terraform.tfvars << EOF
@@ -79,7 +80,6 @@ http_interface = "foo"
 EOF
 
 # Build templates
-source .env
 cd configuration/packer
 packer build -except "proxmox-clone.*" .
 sleep 10
