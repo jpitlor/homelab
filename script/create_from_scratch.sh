@@ -67,7 +67,7 @@ EOF
 # Fill out variables.auto.pkvars.hcl
 # TODO: remove http_interface, it is not used
 cat > configuration/packer/variables.auto.pkrvars.hcl << EOF
-proxmox_host = "$PROXMOX_URL"
+proxmox_host = "$PROXMOX_URL/api2/json"
 proxmox_username = "$PROXMOX_USER"
 proxmox_password = "$PROXMOX_PASSWORD"
 proxmox_node = "$PROXMOX_NODE"
