@@ -83,9 +83,9 @@ EOF
 cd configuration/packer
 packer init .
 packer build -except "proxmox-clone.*" .
-sleep 10
+sleep 30
 packer build -only "proxmox-clone.*" .
-sleep 10
+sleep 30
 
 # Create resources
 cd ../../provisioner
