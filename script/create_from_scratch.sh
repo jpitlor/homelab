@@ -63,6 +63,21 @@ pm_password = "$PROXMOX_PASSWORD"
 proxmox_node_name = "$PROXMOX_NODE"
 EOF
 
+# Fill out variables.auto.pkvars.hcl
+# TODO: remove http_interface, it is not used
+cat > configuration/packer/variables.auto.pkvars.hcl << EOF
+proxmox_host = "$PROXMOX_URL"
+proxmox_username = "$PROXMOX_USER"
+proxmox_password = "$PROXMOX_PASSWORD"
+proxmox_node = "$PROXMOX_NODE"
+proxmox_disk_storage_pool = "$PROXMOX_DISK_STORAGE_POOL"
+debian_iso_url = "$DEBIAN_ISO_URL"
+debian_iso_checksum_url = "$DEBIAN_ISO_CHECKSUM_URL"
+ssh_username = "$SSH_USERNAME"
+ssh_password = "$SSH_PASSWORD"
+http_interface = "foo"
+EOF
+
 # Build templates
 source .env
 cd configuration/packer
