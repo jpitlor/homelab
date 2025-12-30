@@ -32,7 +32,7 @@ if ! (which ansible > /dev/null); then
     pipx install --include-deps ansible
 fi
 ansible-galaxy install -r configuration/requirements.yml
-pip3 install -r configuration/requirements.txt
+pip3 install --break-system-packages -r configuration/requirements.txt
 
 # Fill out .env
 if [ ! -f .env ]; then
@@ -40,12 +40,12 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
-sed -i "s/export BLUESKY_JWT_SECRET=fillmein/export BLUESKY_JWT_SECRET=$(openssl rand --hex 16)" .env
-sed -i "s/export BLUESKY_PLC_ROTATION_KEY=fillmein/export BLUESKY_PLC_ROTATION_KEY=$(openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32)" .env
-sed -i "s/export BLUESKY_ADMIN_PASSWORD=fillmein/export BLUESKY_ADMIN_PASSWORD=$(openssl rand --hex 16)" .env
-sed -i "s/export INFISICAL_ENCRYPTION_KEY=fillmein/export INFISICAL_ENCRYPTION_KEY=$(openssl rand --hex 16)" .env
-sed -i "s/export INFISICAL_AUTH_SECRET=fillmein/export INFISICAL_AUTH_SECRET=$(openssl rand -base64 32)" .env
-sed -i "s/export TANDOOR_SECRET_KEY=fillmein/export TANDOOR_SECRET_KEY=$(openssl rand --hex 16)" .env
+sed -i "s/export BLUESKY_JWT_SECRET=fillmein/export BLUESKY_JWT_SECRET=$(openssl rand --hex 16)/" .env
+sed -i "s/export BLUESKY_PLC_ROTATION_KEY=fillmein/export BLUESKY_PLC_ROTATION_KEY=$(openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32)/" .env
+sed -i "s/export BLUESKY_ADMIN_PASSWORD=fillmein/export BLUESKY_ADMIN_PASSWORD=$(openssl rand --hex 16)/" .env
+sed -i "s/export INFISICAL_ENCRYPTION_KEY=fillmein/export INFISICAL_ENCRYPTION_KEY=$(openssl rand --hex 16)/" .env
+sed -i "s/export INFISICAL_AUTH_SECRET=fillmein/export INFISICAL_AUTH_SECRET=$(openssl rand -base64 32)/" .env
+sed -i "s/export TANDOOR_SECRET_KEY=fillmein/export TANDOOR_SECRET_KEY=$(openssl rand --hex 16)/" .env
 
 if grep -q fillmein .env; then
     echo ".env has placeholder values"
