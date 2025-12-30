@@ -1,4 +1,5 @@
 #!/bin/bash
+# It is expected that the bootstrapping of the project/bucket/etc on GCP has already been done
 
 # Install packer
 if ! (which packer > /dev/null); then
@@ -50,6 +51,17 @@ if grep -q fillmein .env; then
     echo ".env has placeholder values"
     exit 1
 fi
+
+# Fill out terraform.tfvars
+cat > provisioner/terraform.tfvars << EOF
+gcp_project = "$GCP_PROJECT"
+cloudflare_api_token = "$CLOUDFLARE_API_TOKEN"
+cloudflare_zone_id = "$CLOUDFLARE_ZONE_ID"
+proxmox_endpoint = "$PROXMOX_URL"
+pm_user = "$PROXMOX_USER"
+pm_password = "$PROXMOX_PASSWORD"
+proxmox_node_name = "$PROXMOX_NODE"
+EOF
 
 # Build templates
 source .env
