@@ -1,16 +1,15 @@
 #!/bin/bash
 
+git pull
 git submodule update
 su root -- -x -c '/usr/sbin/qm stop 104 && /usr/sbin/qm destroy 104 && /usr/sbin/qm destroy 901'
-
-cd configuration
 source .env
-git pull
-cd packer
+
+cd configuration/packer
 packer build -only "proxmox-clone.docker*" .
 sleep 15
 
-cd ../provisioner
+cd ../../provisioner
 tofu apply -auto-approve
 sleep 15
 
