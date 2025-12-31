@@ -2,7 +2,7 @@
 
 git pull
 git submodule update
-su root -- -x -c '/usr/sbin/qm stop 104 && /usr/sbin/qm destroy 104 && /usr/sbin/qm destroy 901'
+su root -- -x -c '/usr/sbin/qm stop 103 && /usr/sbin/qm destroy 103 && /usr/sbin/qm destroy 901'
 source .env
 
 cd configuration/packer
