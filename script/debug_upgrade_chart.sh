@@ -14,6 +14,6 @@ cd ../provisioner
 tofu apply -auto-approve
 sleep 15
 
-cd ~/homelab-configuration
+cd ../configuration
 ssh-keygen -R 192.168.0.116
 ansible-playbook ./configure-machines.yml
