@@ -71,27 +71,34 @@ proxmox_host = "$PROXMOX_URL/api2/json"
 proxmox_username = "$PROXMOX_USER"
 proxmox_password = "$PROXMOX_PASSWORD"
 proxmox_node = "$PROXMOX_NODE"
-proxmox_node_list = "$PROXMOX_NODE_LIST"
-proxmox_disk_storage_pool = "$PROXMOX_DISK_STORAGE_POOL"
+proxmox_shared_storage_pool = "$PROXMOX_DISK_STORAGE_POOL"
 debian_iso_url = "$DEBIAN_ISO_URL"
 debian_iso_checksum_url = "$DEBIAN_ISO_CHECKSUM_URL"
 ssh_username = "$SSH_USERNAME"
 ssh_password = "$SSH_PASSWORD"
 EOF
 
-# Build templates
+# Build template
 cd configuration/packer
 packer init .
-packer build -except "proxmox-clone.*" .
-sleep 30
-packer build -only "proxmox-clone.*" .
+packer build .
 sleep 30
 
 # Create resources
 cd ../../provisioner
 tofu init
-tofu apply -auto-approve
+tofu apply -auto-approve -parallelism=1
 sleep 30
+
+# The IPs might take time to populate
+tofu refresh
+cat > ../configuration/inventory/proxmox.ini << EOF
+[dev_playground_group]
+dev_playground ansible_host=$(tofu output dev_playground_ip)
+
+[docker_containers_group]
+$(tofu output -json docker_containers_ips | jq -r 'keys[] as $k | "\($k) ansible_host=\(.[$k])"')
+EOF
 
 cd ../configuration
 ansible-playbook configure-machines.yml
