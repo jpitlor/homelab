@@ -94,10 +94,10 @@ sleep 30
 tofu refresh
 cat > ../configuration/inventory/proxmox.ini << EOF
 [dev_playground_group]
-dev_playground ansible_host=$(tofu output dev_playground_ip)
+dev_playground ansible_host=$(tofu output dev_playground_ip) ansible_password=P@ssw0rd
 
 [docker_containers_group]
-$(tofu output -json docker_containers_ips | jq -r 'keys[] as $k | "\($k) ansible_host=\(.[$k])"')
+$(tofu output -json docker_containers_ips | jq -r 'keys[] as $k | "\($k) ansible_host=\(.[$k]) ansible_password=P@ssw0rd"')
 EOF
 
 cd ../configuration
