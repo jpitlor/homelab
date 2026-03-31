@@ -89,7 +89,7 @@ sleep 30
 
 # Create resources
 cd ../../provisioner
-tofu init
+tofu init -upgrade
 tofu apply -auto-approve -parallelism=1
 sleep 30
 
