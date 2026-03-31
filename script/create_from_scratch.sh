@@ -46,6 +46,9 @@ sed -i "s/export BLUESKY_ADMIN_PASSWORD=fillmein/export BLUESKY_ADMIN_PASSWORD=$
 sed -i "s/export INFISICAL_ENCRYPTION_KEY=fillmein/export INFISICAL_ENCRYPTION_KEY=$(openssl rand --hex 16)/" .env
 sed -i "s/export INFISICAL_AUTH_SECRET=fillmein/export INFISICAL_AUTH_SECRET=$(openssl rand -base64 32)/" .env
 sed -i "s/export TANDOOR_SECRET_KEY=fillmein/export TANDOOR_SECRET_KEY=$(openssl rand --hex 16)/" .env
+sed -i "s/export OPEN_ARCHIVER_MEILI_MASTER_KEY=fillmein/export OPEN_ARCHIVER_MEILI_MASTER_KEY=$(openssl rand --hex 16)/" .env
+sed -i "s/export OPEN_ARCHIVER_JWT_SECRET=fillmein/export OPEN_ARCHIVER_JWT_SECRET=$(openssl rand --hex 16)/" .env
+sed -i "s/export OPEN_ARCHIVER_ENCRYPTION_KEY=fillmein/export OPEN_ARCHIVER_ENCRYPTION_KEY=$(openssl rand --hex 16)/" .env
 
 if grep -q fillmein .env; then
     echo ".env has placeholder values"
@@ -54,21 +57,21 @@ fi
 source .env
 
 # Fill out terraform.tfvars
-# TODO: make variables more consistent
 cat > provisioner/terraform.tfvars << EOF
 gcp_project = "$GCP_PROJECT"
 cloudflare_api_token = "$CLOUDFLARE_AUTH_TOKEN"
 cloudflare_zone_id = "$CLOUDFLARE_ZONE_ID"
 proxmox_endpoint = "$PROXMOX_HOST"
-pm_user = "$PROXMOX_USER_NO_REALM"
+pm_user = "$PROXMOX_USER"
 pm_password = "$PROXMOX_PASSWORD"
 proxmox_node_name = "$PROXMOX_NODE"
+proxmox_cluster_nodes = $PROXMOX_CLUSTER_NODES
 EOF
 
 # Fill out variables.auto.pkvars.hcl
 cat > configuration/packer/variables.auto.pkrvars.hcl << EOF
-proxmox_host = "$PROXMOX_URL/api2/json"
-proxmox_username = "$PROXMOX_USER"
+proxmox_host = "https://$PROXMOX_HOST:8006/api2/json"
+proxmox_username = "$PROXMOX_USER@$PROXMOX_REALM"
 proxmox_password = "$PROXMOX_PASSWORD"
 proxmox_node = "$PROXMOX_NODE"
 proxmox_shared_storage_pool = "$PROXMOX_DISK_STORAGE_POOL"
