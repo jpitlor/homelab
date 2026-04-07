@@ -49,6 +49,7 @@ sed -i "s/export TANDOOR_SECRET_KEY=fillmein/export TANDOOR_SECRET_KEY=$(openssl
 sed -i "s/export OPEN_ARCHIVER_MEILI_MASTER_KEY=fillmein/export OPEN_ARCHIVER_MEILI_MASTER_KEY=$(openssl rand --hex 16)/" .env
 sed -i "s/export OPEN_ARCHIVER_JWT_SECRET=fillmein/export OPEN_ARCHIVER_JWT_SECRET=$(openssl rand --hex 16)/" .env
 sed -i "s/export OPEN_ARCHIVER_ENCRYPTION_KEY=fillmein/export OPEN_ARCHIVER_ENCRYPTION_KEY=$(openssl rand --hex 16)/" .env
+sed -i "s/export SUNSHINE_PASSWORD=fillmein/export SUNSHINE_PASSWORD=$(openssl rand --hex 16)/" .env
 
 if grep -q fillmein .env; then
     echo ".env has placeholder values"
