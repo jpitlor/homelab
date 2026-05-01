@@ -102,6 +102,10 @@ dev_playground ansible_host=$(tofu output dev_playground_ips) ansible_password=P
 
 [docker_containers_group]
 $(tofu output -json docker_containers_ips | jq -r 'keys[] as $k | "\($k) ansible_host=\(.[$k]) ansible_password=P@ssw0rd ansible_python_interpreter=auto_silent"')
+
+[docker_containers_group:vars]
+longhorn_gcp_key=$(tofu output -json service_account_hmac_credentials | jq -r '.longhorn_backups.key')
+longhorn_gcp_secret=$(tofu output -json service_account_hmac_credentials | jq -r '.longhorn_backups.secret')
 EOF
 
 cd ../configuration
