@@ -40,16 +40,16 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
-sed -i "s/export BLUESKY_JWT_SECRET=fillmein/export BLUESKY_JWT_SECRET=$(openssl rand --hex 16)/" .env
-sed -i "s/export BLUESKY_PLC_ROTATION_KEY=fillmein/export BLUESKY_PLC_ROTATION_KEY=$(openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32)/" .env
-sed -i "s/export BLUESKY_ADMIN_PASSWORD=fillmein/export BLUESKY_ADMIN_PASSWORD=$(openssl rand --hex 16)/" .env
-sed -i "s/export INFISICAL_ENCRYPTION_KEY=fillmein/export INFISICAL_ENCRYPTION_KEY=$(openssl rand --hex 16)/" .env
-sed -i "s/export INFISICAL_AUTH_SECRET=fillmein/export INFISICAL_AUTH_SECRET=$(openssl rand -base64 32)/" .env
-sed -i "s/export TANDOOR_SECRET_KEY=fillmein/export TANDOOR_SECRET_KEY=$(openssl rand --hex 16)/" .env
-sed -i "s/export OPEN_ARCHIVER_MEILI_MASTER_KEY=fillmein/export OPEN_ARCHIVER_MEILI_MASTER_KEY=$(openssl rand --hex 16)/" .env
-sed -i "s/export OPEN_ARCHIVER_JWT_SECRET=fillmein/export OPEN_ARCHIVER_JWT_SECRET=$(openssl rand --hex 16)/" .env
-sed -i "s/export OPEN_ARCHIVER_ENCRYPTION_KEY=fillmein/export OPEN_ARCHIVER_ENCRYPTION_KEY=$(openssl rand --hex 16)/" .env
-sed -i "s/export SUNSHINE_PASSWORD=fillmein/export SUNSHINE_PASSWORD=$(openssl rand --hex 16)/" .env
+sed -i "s|export BLUESKY_JWT_SECRET=fillmein|export BLUESKY_JWT_SECRET=$(openssl rand --hex 16)|" .env
+sed -i "s|export BLUESKY_PLC_ROTATION_KEY=fillmein|export BLUESKY_PLC_ROTATION_KEY=$(openssl ecparam --name secp256k1 --genkey --noout --outform DER | tail --bytes=+8 | head --bytes=32 | xxd --plain --cols 32)|" .env
+sed -i "s|export BLUESKY_ADMIN_PASSWORD=fillmein|export BLUESKY_ADMIN_PASSWORD=$(openssl rand --hex 16)|" .env
+sed -i "s|export INFISICAL_ENCRYPTION_KEY=fillmein|export INFISICAL_ENCRYPTION_KEY=$(openssl rand --hex 16)|" .env
+sed -i "s|export INFISICAL_AUTH_SECRET=fillmein|export INFISICAL_AUTH_SECRET=$(openssl rand -base64 32)|" .env
+sed -i "s|export TANDOOR_SECRET_KEY=fillmein|export TANDOOR_SECRET_KEY=$(openssl rand --hex 16)|" .env
+sed -i "s|export OPEN_ARCHIVER_MEILI_MASTER_KEY=fillmein|export OPEN_ARCHIVER_MEILI_MASTER_KEY=$(openssl rand --hex 16)|" .env
+sed -i "s|export OPEN_ARCHIVER_JWT_SECRET=fillmein|export OPEN_ARCHIVER_JWT_SECRET=$(openssl rand --hex 16)|" .env
+sed -i "s|export OPEN_ARCHIVER_ENCRYPTION_KEY=fillmein|export OPEN_ARCHIVER_ENCRYPTION_KEY=$(openssl rand --hex 16)|" .env
+sed -i "s|export SUNSHINE_PASSWORD=fillmein|export SUNSHINE_PASSWORD=$(openssl rand --hex 16)|" .env
 
 if grep -q fillmein .env; then
     echo ".env has placeholder values"
@@ -109,7 +109,7 @@ longhorn_gcp_secret=$(tofu output -json service_account_hmac_credentials | jq '.
 velero_service_account_json=$(tofu output -json service_account_json_credentials | jq '.velero_backups')
 EOF
 
-sed -i "s/export POSTGRES_SERVICE_ACCOUNT_JSON=generateme/export POSTGRES_SERVICE_ACCOUNT_JSON=$(tofu output -json service_account_json_credentials | jq '.postgres_backups')/" ../.env
+sed -i "s|export POSTGRES_SERVICE_ACCOUNT_JSON=generateme|export POSTGRES_SERVICE_ACCOUNT_JSON=$(tofu output -json service_account_json_credentials | jq '.postgres_backups')|" ../.env
 source ../.env
 
 cd ../configuration
