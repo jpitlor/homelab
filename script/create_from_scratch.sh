@@ -104,9 +104,13 @@ dev_playground ansible_host=$(tofu output dev_playground_ips) ansible_password=P
 $(tofu output -json docker_containers_ips | jq -r 'keys[] as $k | "\($k) ansible_host=\(.[$k]) ansible_password=P@ssw0rd ansible_python_interpreter=auto_silent"')
 
 [docker_containers_group:vars]
-longhorn_gcp_key=$(tofu output -json service_account_hmac_credentials | jq -r '.longhorn_backups.key')
-longhorn_gcp_secret=$(tofu output -json service_account_hmac_credentials | jq -r '.longhorn_backups.secret')
+longhorn_gcp_key=$(tofu output -json service_account_hmac_credentials | jq '.longhorn_backups.key')
+longhorn_gcp_secret=$(tofu output -json service_account_hmac_credentials | jq '.longhorn_backups.secret')
+velero_service_account_json=$(tofu output -json service_account_json_credentials | jq '.velero_backups')
 EOF
+
+sed -i "s/export POSTGRES_SERVICE_ACCOUNT_JSON=generateme/export POSTGRES_SERVICE_ACCOUNT_JSON=$(tofu output -json service_account_json_credentials | jq '.postgres_backups')/" ../.env
+source ../.env
 
 cd ../configuration
 ansible-playbook configure-machines.yml
