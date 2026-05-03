@@ -109,7 +109,7 @@ longhorn_gcp_secret=$(tofu output -json service_account_hmac_credentials | jq '.
 velero_service_account_json=$(tofu output -json service_account_json_credentials | jq '.velero_backups')
 EOF
 
-sed -i "s|export POSTGRES_SERVICE_ACCOUNT_JSON=generateme|export POSTGRES_SERVICE_ACCOUNT_JSON=$(tofu output -json service_account_json_credentials | jq '.postgres_backups')|" ../.env
+sed -i "s|export POSTGRES_SERVICE_ACCOUNT_JSON=generateme|export POSTGRES_SERVICE_ACCOUNT_JSON=$(tofu output -json service_account_json_credentials | jq '.postgres_backups | gsub("\n"; "\\n") | gsub("\""; "\\\"")')|" ../.env
 source ../.env
 
 cd ../configuration
